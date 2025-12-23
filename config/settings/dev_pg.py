@@ -7,28 +7,14 @@ from .base import *
 DEBUG = env("DJANGO_DEBUG", default=True)
 ALLOWED_HOSTS = []
 
-# Локальна база (SQLite)
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    },
-
-    "postgres": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "prod_db",
         "USER": "prod_user",
         "PASSWORD": "12345",
         "HOST": "127.0.0.1",
         "PORT": "5432",
-    },
-
-    'mysql': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'my_db',
-        'USER': 'my_db_user',
-        'PASSWORD': '12345',
-        'HOST': 'localhost',
-        'PORT': '3306',
-}
+    }
 }

@@ -1,15 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <title>Головна</title>
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <h2>{{ greeting }}</h2>
 
-    <!-- Кнопка переходу на сторінку posts -->
-    <a href="{% url 'blog_posts' %}">
-        <button>Перейти до постів</button>
-    </a>
+    <!-- Кнопка переходу на сторінку постів -->
+    <a href="{% url 'blog_posts' %}" class="btn">Перейти до постів</a>
+
+    <!-- Кнопка переходу на сторінку завантаження аватара -->
+    <a href="{% url 'upload_avatar' %}" class="btn">Завантажити аватар</a>
 </body>
 </html>

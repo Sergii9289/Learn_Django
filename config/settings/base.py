@@ -53,10 +53,20 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 # База даних буде перевизначена у dev/prod
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "prod_db",
+        "USER": "prod_user",
+        "PASSWORD": "12345",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 
@@ -72,8 +82,9 @@ TIME_ZONE = "Europe/Kyiv"
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / "staticfiles"  # Папка, куди збираються файли при "python manage.py collectstatic"
 
 LOGS_DIR = BASE_DIR / "logs"
 

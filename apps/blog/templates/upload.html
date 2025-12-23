@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Завантаження аватара</title>
+</head>
+<body>
+    <h1>Завантажити аватар</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Завантажити</button>
+    </form>
+
+    <hr>
+    <a href="{% url 'upload_avatar' %}">Перейти на сторінку завантаження</a>
+</body>
+</html>
