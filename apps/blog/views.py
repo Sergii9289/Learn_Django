@@ -1,8 +1,6 @@
-from django.shortcuts import render, redirect
-from .models import BlogPost
-from .models import Profile
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import BlogPost, Profile
 from .forms import AvatarUploadForm
-
 
 
 def home(request):
@@ -21,8 +19,12 @@ def upload_avatar(request):
             profile = form.cleaned_data['author']
             profile.avatar = form.cleaned_data['avatar']
             profile.save()
-            return redirect('upload_avatar')
+            return redirect('blog:upload_avatar')
     else:
         form = AvatarUploadForm()
     return render(request, 'upload.html', {'form': form})
 
+
+def view_avatar(request, pk):
+    profile = get_object_or_404(Profile, pk=pk)
+    return render(request, 'view_avatar.html', {'profile': profile})

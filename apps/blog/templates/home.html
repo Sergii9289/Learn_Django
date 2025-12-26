@@ -23,9 +23,9 @@
     <h2>{{ greeting }}</h2>
 
     <!-- Кнопка переходу на сторінку постів -->
-    <a href="{% url 'blog_posts' %}" class="btn">Перейти до постів</a>
+    <a href="{% url 'blog:blog_posts' %}" class="btn">Перейти до постів</a>
 
     <!-- Кнопка переходу на сторінку завантаження аватара -->
-    <a href="{% url 'upload_avatar' %}" class="btn">Завантажити аватар</a>
+    <a href="{% url 'blog:upload_avatar' %}" class="btn">Завантажити аватар</a>
 </body>
 </html>
