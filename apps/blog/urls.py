@@ -8,4 +8,5 @@ urlpatterns = [
     path('posts/', views.blog_posts, name='blog_posts'),
     path('avatar/', views.upload_avatar, name="upload_avatar"),
     path('avatar/<int:pk>/', views.view_avatar, name="view_avatar"),  # динамічний url
+    path('posts/<int:pk>/', views.post_detail, name='post-detail'),
 ]

@@ -28,3 +28,8 @@ def upload_avatar(request):
 def view_avatar(request, pk):
     profile = get_object_or_404(Profile, pk=pk)
     return render(request, 'view_avatar.html', {'profile': profile})
+
+
+def post_detail(request, pk):
+    post = get_object_or_404(BlogPost, pk=pk)
+    return render(request, 'post_detail.html', {'post': post})
