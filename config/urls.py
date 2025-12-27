@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.blog.urls', namespace='blog')),  # підключаємо з namespace
+    path('shop/', include('apps.shop.urls', namespace='shop')),  # підключаємо з namespace
 ]
 
 if settings.DEBUG:  # Тільки для режиму розробки

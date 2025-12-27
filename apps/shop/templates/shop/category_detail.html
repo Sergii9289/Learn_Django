@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ category.name }}</title>
+</head>
+<body>
+    <h1>Категорія: {{ category.name }}</h1>
+    <ul>
+        {% for product in products %}
+            <li>
+                <a href="{% url 'shop:product_detail' category.id product.slug %}">
+                    {{ product.name }} — {{ product.price }} грн
+                </a>
+            </li>
+        {% empty %}
+            <li>У цій категорії ще немає товарів.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'shop:home' %}">⬅ Назад до категорій</a>
+</body>
+</html>

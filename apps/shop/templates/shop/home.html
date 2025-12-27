@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .btn:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <h1>{{ greeting }}</h1>
+    <p>Оберіть категорію:</p>
+    {% for category in categories %}
+        <a href="{% url 'shop:category_detail' category.id %}" class="btn">{{ category.name }}</a>
+    {% endfor %}
+</body>
+</html>
