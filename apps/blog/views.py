@@ -1,28 +1,35 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import BlogPost, Profile
 from .forms import AvatarUploadForm
+from django.http import JsonResponse
+from django.views.generic import ListView, FormView
+
+
+class PostsListView(ListView):
+    model = BlogPost
+    template_name = 'blog_posts.html'
+    context_object_name = 'posts'
+
+
+class AvatarUploadView(FormView):
+    template_name = 'upload_avatar.html'
+    form_class = AvatarUploadForm
+
+    # def dispatch(self, request, *args, **kwargs):
+    #     # Перевірка авторизації
+    #     if not request.user.is_authenticated:
+    #         return JsonResponse({"error": "Futenthication needed"}, status=401)
+    #     return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        profile = form.cleaned_data['author']
+        profile.avatar = form.cleaned_data['avatar']
+        profile.save()
+        return redirect('blog:profile')
 
 
 def home(request):
     return render(request, 'home.html', {'greeting': 'HELLO!'})
-
-
-def blog_posts(request):
-    posts = BlogPost.objects.all()  # Отримуємо всі пости
-    return render(request, 'blog_posts.html', {'posts': posts})
-
-
-def upload_avatar(request):
-    if request.method == 'POST':
-        form = AvatarUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            profile = form.cleaned_data['author']
-            profile.avatar = form.cleaned_data['avatar']
-            profile.save()
-            return redirect('blog:upload_avatar')
-    else:
-        form = AvatarUploadForm()
-    return render(request, 'upload.html', {'form': form})
 
 
 def view_avatar(request, pk):
