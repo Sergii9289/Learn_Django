@@ -1,40 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Наші пости</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <h1>Список постів</h1>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Список постів{% endblock %}
+
+{% block content %}
+  <div class="form-container">
+    <h2>📚 Список постів</h2>
     <ul>
-        {% for post in object_list %}
-            <li class="post-item">
-                {% if post.author.avatar %}
-                    <a href="{{ post.author.avatar.url }}" target="_blank">
-                        <img src="{{ post.author.avatar.url }}" alt="{{ post.author.name }}" class="avatar">
-                    </a>
-                {% endif %}
-                <a href="{{ post.get_absolute_url }}" class="view-link">{{ post.title }}</a>
-                <span>(створено: {{ post.created_at|date:"d.m.Y" }}) — {{ post.author.name }}</span>
-            </li>
-        {% endfor %}
+      {% for post in object_list %}
+        <li class="post-item">
+          {% if post.author.avatar %}
+            <a href="{{ post.author.avatar.url }}" target="_blank">
+              <img src="{{ post.author.avatar.url }}" alt="{{ post.author.name }}" class="avatar">
+            </a>
+          {% endif %}
+          <a href="{{ post.get_absolute_url }}" class="view-link">{{ post.title }}</a>
+          <span>(створено: {{ post.created_at|date:"d.m.Y" }}) — {{ post.author.name }}</span>
+        </li>
+      {% empty %}
+        <li>Поки що немає постів.</li>
+      {% endfor %}
     </ul>
 
-    <a href="{% url 'blog:post-create' %}" class="create-btn">Створити нову статтю</a>
+    <!-- Кнопка створення посту -->
+    <a href="{% url 'blog:post-create' %}" class="btn">➕ Створити нову статтю</a>
 
     {% if is_paginated %}
-        <div class="pagination">
-            {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">Попередня</a>
-            {% endif %}
+      <div class="pagination">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" class="btn">⬅ Попередня</a>
+        {% endif %}
 
-            <span>Сторінка {{ page_obj.number }} з {{ paginator.num_pages }}</span>
+        <span>Сторінка {{ page_obj.number }} з {{ paginator.num_pages }}</span>
 
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">Наступна</a>
-            {% endif %}
-        </div>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="btn">Наступна ➡</a>
+        {% endif %}
+      </div>
     {% endif %}
-</body>
-</html>
+  </div>
+{% endblock %}

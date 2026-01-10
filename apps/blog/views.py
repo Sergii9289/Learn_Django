@@ -12,12 +12,15 @@ class PostsListView(ListView):
     context_object_name = 'posts'
     paginate_by = 3
 
+    def get_queryset(self):
+        return BlogPost.objects.order_by('-created_at')
+
 
 class PostCreateView(CreateView):
     model = BlogPost
     template_name = 'blog/post_form.html'
     fields = ['title', 'content', 'author']  # поля для заповнення
-    success_url = reverse_lazy('blog:post_list')  # після створення перенаправляє на список постів
+    success_url = reverse_lazy('blog:blog_posts')  # після створення перенаправляє на список постів
 
     def form_valid(self, form):
         # Можна додати додаткову логіку перед збереженням
