@@ -3,6 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ category.name }}</title>
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <h1>Категорія: {{ category.name }}</h1>
@@ -17,6 +31,7 @@
             <li>У цій категорії ще немає товарів.</li>
         {% endfor %}
     </ul>
-    <a href="{% url 'shop:home' %}">⬅ Назад до категорій</a>
+    <a href="{% url 'shop:home' %}" class="btn">⬅ Назад до категорій</a>
+    <a href="{% url 'blog:home' %}" class="btn">🏠 На головну</a>
 </body>
 </html>

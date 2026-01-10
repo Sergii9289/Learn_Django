@@ -23,5 +23,8 @@
     {% for category in categories %}
         <a href="{% url 'shop:category_detail' category.id %}" class="btn">{{ category.name }}</a>
     {% endfor %}
+
+    <!-- ✅ Додана кнопка -->
+    <a href="{% url 'blog:home' %}" class="btn">🏠 На головну</a>
 </body>
 </html>

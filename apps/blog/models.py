@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Profile(models.Model):
@@ -21,3 +22,7 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        # Цей метод використовується для редиректу після успішної дії (наприклад, створення поста)
+        return reverse('blog:post-detail', kwargs={'pk': self.pk})

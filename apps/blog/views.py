@@ -2,24 +2,36 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import BlogPost, Profile
 from .forms import AvatarUploadForm
 from django.http import JsonResponse
-from django.views.generic import ListView, FormView
+from django.views.generic import ListView, FormView, CreateView
+from django.urls import reverse_lazy
 
 
 class PostsListView(ListView):
     model = BlogPost
-    template_name = 'blog_posts.html'
+    template_name = 'blog/posts_list.html'
     context_object_name = 'posts'
+    paginate_by = 3
+
+
+class PostCreateView(CreateView):
+    model = BlogPost
+    template_name = 'blog/post_form.html'
+    fields = ['title', 'content', 'author']  # поля для заповнення
+    success_url = reverse_lazy('blog:post_list')  # після створення перенаправляє на список постів
+
+    def form_valid(self, form):
+        # Можна додати додаткову логіку перед збереженням
+        response = super().form_valid(form)
+        return response
 
 
 class AvatarUploadView(FormView):
-    template_name = 'upload_avatar.html'
+    template_name = 'blog/upload_avatar.html'
     form_class = AvatarUploadForm
 
-    # def dispatch(self, request, *args, **kwargs):
-    #     # Перевірка авторизації
-    #     if not request.user.is_authenticated:
-    #         return JsonResponse({"error": "Futenthication needed"}, status=401)
-    #     return super().dispatch(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        print(f"Request method: {request.method}, Request path: {request.path}")
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         profile = form.cleaned_data['author']
@@ -29,14 +41,14 @@ class AvatarUploadView(FormView):
 
 
 def home(request):
-    return render(request, 'home.html', {'greeting': 'HELLO!'})
+    return render(request, 'blog/home.html', {'greeting': 'Вітаю у Django проекті Сергія Цеміка!'})
 
 
 def view_avatar(request, pk):
     profile = get_object_or_404(Profile, pk=pk)
-    return render(request, 'view_avatar.html', {'profile': profile})
+    return render(request, 'blog/view_avatar.html', {'profile': profile})
 
 
 def post_detail(request, pk):
     post = get_object_or_404(BlogPost, pk=pk)
-    return render(request, 'post_detail.html', {'post': post})
+    return render(request, 'blog/post_detail.html', {'post': post})
