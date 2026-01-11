@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}Видалити пост{% endblock %}
+
+{% block content %}
+  <div class="form-container">
+    <h2>🗑️ Підтвердження видалення</h2>
+    <p>Ви впевнені, що хочете видалити пост <strong>"{{ post.title }}"</strong>?</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Так, видалити</button>
+      <a href="{% url 'blog:post-detail' post.pk %}" class="btn btn-secondary">Скасувати</a>
+    </form>
+  </div>
+{% endblock %}

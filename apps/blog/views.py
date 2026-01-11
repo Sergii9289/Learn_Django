@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import BlogPost, Profile
 from .forms import AvatarUploadForm
-from django.http import JsonResponse
-from django.views.generic import ListView, FormView, CreateView
+from django.views.generic import ListView, FormView, CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 
@@ -28,6 +27,30 @@ class PostCreateView(CreateView):
         return response
 
 
+class PostDetailView(DetailView):
+    model = BlogPost
+    template_name = 'blog/post_detail.html'
+    context_object_name = 'post'
+
+
+class PostUpdateView(UpdateView):
+    model = BlogPost
+    template_name = 'blog/post_form.html'  # можна використати той самий шаблон, що й для створення
+    fields = ['title', 'content', 'author']  # поля для редагування
+    context_object_name = 'post'
+
+    def get_success_url(self):
+        # після редагування перенаправляє на сторінку перегляду цього поста
+        return reverse_lazy('blog:post-detail', kwargs={'pk': self.object.pk})
+
+
+class PostDeleteView(DeleteView):
+    model = BlogPost
+    template_name = 'blog/post_confirm_delete.html'  # шаблон підтвердження видалення
+    context_object_name = 'post'
+    success_url = reverse_lazy('blog:blog_posts')  # після видалення перенаправляє на список постів
+
+
 class AvatarUploadView(FormView):
     template_name = 'blog/upload_avatar.html'
     form_class = AvatarUploadForm
@@ -51,7 +74,7 @@ def view_avatar(request, pk):
     profile = get_object_or_404(Profile, pk=pk)
     return render(request, 'blog/view_avatar.html', {'profile': profile})
 
-
-def post_detail(request, pk):
-    post = get_object_or_404(BlogPost, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})
+#
+# def post_detail(request, pk):
+#     post = get_object_or_404(BlogPost, pk=pk)
+#     return render(request, 'blog/post_detail.html', {'post': post})

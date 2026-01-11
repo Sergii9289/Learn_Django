@@ -8,17 +8,25 @@
     <h2>📚 Список постів</h2>
     <ul>
       {% for post in object_list %}
-        <li class="post-item">
-          {% if post.author.avatar %}
-            <a href="{{ post.author.avatar.url }}" target="_blank">
-              <img src="{{ post.author.avatar.url }}" alt="{{ post.author.name }}" class="avatar">
-            </a>
-          {% endif %}
-          <a href="{{ post.get_absolute_url }}" class="view-link">{{ post.title }}</a>
-          <span>(створено: {{ post.created_at|date:"d.m.Y" }}) — {{ post.author.name }}</span>
-        </li>
-      {% empty %}
-        <li>Поки що немає постів.</li>
+          <li class="post-item">
+            {% if post.author.avatar %}
+              <a href="{{ post.author.avatar.url }}" target="_blank">
+                <img src="{{ post.author.avatar.url }}" alt="{{ post.author.name }}" class="avatar">
+              </a>
+            {% endif %}
+            <a href="{{ post.get_absolute_url }}" class="view-link">{{ post.title }}</a>
+
+            <!-- Контейнер для автора та іконок -->
+            <div class="post-meta-actions">
+              <span class="post-meta">(створено: {{ post.created_at|date:"d.m.Y" }}) — {{ post.author.name }}</span>
+              <a href="{% url 'blog:post-update' post.pk %}" class="action-link edit-link" title="Редагувати">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="{% url 'blog:post-delete' post.pk %}" class="action-link delete-link" title="Видалити">
+                <i class="fas fa-trash-alt"></i>
+              </a>
+            </div>
+          </li>
       {% endfor %}
     </ul>
 

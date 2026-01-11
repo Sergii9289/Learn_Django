@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ post.title }}</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Головна{% endblock %}
+
+{% block content %}
     <h1>{{ post.title }}</h1>
     <p><strong>Автор:</strong> {{ post.author.name }}</p>
     <p>{{ post.content }}</p>
-    <a href="{% url 'blog:blog_posts' %}">Назад до списку</a>
-</body>
-</html>
+    <a href="{% url 'blog:blog_posts' %}" class="btn">Назад до списку</a>
+{% endblock %}
