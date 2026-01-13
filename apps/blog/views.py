@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import BlogPost, Profile
 from .forms import AvatarUploadForm
-from django.views.generic import ListView, FormView, CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import (ListView, FormView,
+                                  CreateView, DetailView, UpdateView, DeleteView)
 from django.urls import reverse_lazy
 
 
@@ -9,7 +10,7 @@ class PostsListView(ListView):
     model = BlogPost
     template_name = 'blog/posts_list.html'
     context_object_name = 'posts'
-    paginate_by = 3
+    paginate_by = 5
 
     def get_queryset(self):
         return BlogPost.objects.order_by('-created_at')
@@ -73,8 +74,3 @@ def home(request):
 def view_avatar(request, pk):
     profile = get_object_or_404(Profile, pk=pk)
     return render(request, 'blog/view_avatar.html', {'profile': profile})
-
-#
-# def post_detail(request, pk):
-#     post = get_object_or_404(BlogPost, pk=pk)
-#     return render(request, 'blog/post_detail.html', {'post': post})

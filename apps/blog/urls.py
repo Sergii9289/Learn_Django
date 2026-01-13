@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-from .views import PostsListView, AvatarUploadView, PostCreateView, PostDetailView, PostUpdateView, PostDeleteView
+from .views import (PostsListView, AvatarUploadView,
+                    PostCreateView, PostDetailView, PostUpdateView, PostDeleteView)
 
 app_name = 'blog'  # Вказуємо namespace для додатку
 

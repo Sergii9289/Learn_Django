@@ -182,3 +182,18 @@ body {
 
 .delete-link { color: #dc3545; }
 .delete-link:hover { color: #a71d2a; }
+
+.post-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-preview {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.post-meta-right {
+  white-space: nowrap;
+}

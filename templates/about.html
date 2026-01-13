@@ -1,12 +1,11 @@
-<!-- templates/about.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Про компанію</title>
-</head>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Головна{% endblock %}
+
+{% block content %}
 <body>
     <h1>Про нашу компанію</h1>
     <p>Ми — команда розробників, які навчають Django і люблять писати код.</p>
 </body>
-</html>
+{% endblock %}

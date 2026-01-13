@@ -4,47 +4,87 @@
 {% block title %}Список постів{% endblock %}
 
 {% block content %}
-  <div class="form-container">
+<div class="container mt-5">
     <h2>📚 Список постів</h2>
-    <ul>
-      {% for post in object_list %}
-          <li class="post-item">
-            {% if post.author.avatar %}
-              <a href="{{ post.author.avatar.url }}" target="_blank">
-                <img src="{{ post.author.avatar.url }}" alt="{{ post.author.name }}" class="avatar">
-              </a>
-            {% endif %}
-            <a href="{{ post.get_absolute_url }}" class="view-link">{{ post.title }}</a>
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Аватар</th>
+                <th>Автор</th>
+                <th>Заголовок</th>
+                <th>Контент</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in object_list %}
+            <tr>
+                <td>
+                    {% if post.author.avatar %}
+                        <!-- Клік по аватарці відкриває модальне вікно -->
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#avatarModal{{ post.pk }}">
+                            <img src="{{ post.author.avatar.url }}" alt="{{ post.author.name }}"
+                                 class="rounded-circle" width="40" height="40">
+                        </a>
 
-            <!-- Контейнер для автора та іконок -->
-            <div class="post-meta-actions">
-              <span class="post-meta">(створено: {{ post.created_at|date:"d.m.Y" }}) — {{ post.author.name }}</span>
-              <a href="{% url 'blog:post-update' post.pk %}" class="action-link edit-link" title="Редагувати">
-                <i class="fas fa-edit"></i>
-              </a>
-              <a href="{% url 'blog:post-delete' post.pk %}" class="action-link delete-link" title="Видалити">
-                <i class="fas fa-trash-alt"></i>
-              </a>
-            </div>
-          </li>
-      {% endfor %}
-    </ul>
+                        <!-- Модальне вікно -->
+                        <div class="modal fade" id="avatarModal{{ post.pk }}" tabindex="-1" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">{{ post.author.name }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрити"></button>
+                              </div>
+                              <div class="modal-body text-center">
+                                <img src="{{ post.author.avatar.url }}" alt="{{ post.author.name }}" class="img-fluid rounded">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    {% else %}
+                        <span class="text-muted">—</span>
+                    {% endif %}
+                </td>
+                <td>{{ post.author.name }}</td>
+                <td>
+                    <a href="{{ post.get_absolute_url }}" class="fw-bold">
+                        {{ post.title }}
+                    </a>
+                </td>
+                <td>{{ post.content|truncatechars:50 }}</td>
+                <td>
+                    <a href="{% url 'blog:post-update' post.pk %}" class="btn btn-sm btn-outline-primary" title="Редагувати">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'blog:post-delete' post.pk %}" class="btn btn-sm btn-outline-danger" title="Видалити">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center text-muted">Поки немає постів</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <!-- Кнопка створення посту -->
-    <a href="{% url 'blog:post-create' %}" class="btn">➕ Створити нову статтю</a>
+    <a href="{% url 'blog:post-create' %}" class="btn btn-success">➕ Створити нову статтю</a>
 
+    <!-- Пагінація -->
     {% if is_paginated %}
-      <div class="pagination">
+      <div class="pagination mt-3">
         {% if page_obj.has_previous %}
-          <a href="?page={{ page_obj.previous_page_number }}" class="btn">⬅ Попередня</a>
+          <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-secondary">⬅ Попередня</a>
         {% endif %}
 
-        <span>Сторінка {{ page_obj.number }} з {{ paginator.num_pages }}</span>
+        <span class="mx-2">Сторінка {{ page_obj.number }} з {{ paginator.num_pages }}</span>
 
         {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}" class="btn">Наступна ➡</a>
+          <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-secondary">Наступна ➡</a>
         {% endif %}
       </div>
     {% endif %}
-  </div>
+</div>
 {% endblock %}
