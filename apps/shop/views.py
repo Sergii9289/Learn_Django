@@ -17,8 +17,8 @@ def category_detail(request, category_id):
         'products': products,
     })
 
-def product_detail(request, category_id, product_name):
-    product = get_object_or_404(Product, category_id=category_id, slug=product_name)
+def product_detail(request, category_id, model):
+    product = get_object_or_404(Product, category_id=category_id, model=model)
     return render(request, 'shop/product_detail.html', {
         'product': product,
     })

@@ -15,10 +15,10 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         related_name="products"
     )
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+    brand = models.CharField(max_length=200)   # було name
+    model = models.SlugField(max_length=200, unique=True)  # було slug
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return self.name
+        return f"{self.brand} {self.model}"

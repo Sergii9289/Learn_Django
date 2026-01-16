@@ -71,6 +71,6 @@ def home(request):
     return render(request, 'blog/home.html', {'greeting': 'Вітаю у Django проекті Сергія Цеміка!'})
 
 
-def view_avatar(request, pk):
-    profile = get_object_or_404(Profile, pk=pk)
-    return render(request, 'blog/view_avatar.html', {'profile': profile})
+# def view_avatar(request, pk):
+#     profile = get_object_or_404(Profile, pk=pk)
+#     return render(request, 'blog/view_avatar.html', {'profile': profile})

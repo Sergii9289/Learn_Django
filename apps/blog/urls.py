@@ -9,7 +9,6 @@ urlpatterns = [
     path('', views.home, name='home'),  # Головна сторінка нашого блогу
     path('posts/', PostsListView.as_view(), name='blog_posts'),
     path('avatar/', AvatarUploadView.as_view(), name="upload_avatar"),
-    path('avatar/<int:pk>/', views.view_avatar, name="view_avatar"),  # динамічний url
     path('posts/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('posts/create/', PostCreateView.as_view(), name='post-create'),
     path('posts/<int:pk>/edit/', PostUpdateView.as_view(), name='post-update'),
