@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import BlogPost, Profile
-from .forms import AvatarUploadForm
+from ..models import BlogPost, Profile, Category
+from ..forms import AvatarUploadForm
 from django.views.generic import (ListView, FormView,
                                   CreateView, DetailView, UpdateView, DeleteView)
 from django.urls import reverse_lazy
+from django.db.models import Count
 
 
 class PostsListView(ListView):
@@ -15,15 +16,21 @@ class PostsListView(ListView):
     def get_queryset(self):
         return BlogPost.objects.order_by('-created_at')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['authors'] = Profile.objects.all()
+        # Використовуємо правильний related_name 'posts'
+        context['categories'] = Category.objects.annotate(post_count=Count('posts'))
+        return context
+
 
 class PostCreateView(CreateView):
     model = BlogPost
     template_name = 'blog/post_form.html'
-    fields = ['title', 'content', 'author']  # поля для заповнення
-    success_url = reverse_lazy('blog:blog_posts')  # після створення перенаправляє на список постів
+    fields = ['title', 'content', 'author', 'categories']  # 👈 додали categories
+    success_url = reverse_lazy('blog:blog_posts')
 
     def form_valid(self, form):
-        # Можна додати додаткову логіку перед збереженням
         response = super().form_valid(form)
         return response
 
@@ -37,7 +44,7 @@ class PostDetailView(DetailView):
 class PostUpdateView(UpdateView):
     model = BlogPost
     template_name = 'blog/post_form.html'  # можна використати той самий шаблон, що й для створення
-    fields = ['title', 'content', 'author']  # поля для редагування
+    fields = ['title', 'content', 'author', 'categories']  # поля для редагування
     context_object_name = 'post'
 
     def get_success_url(self):
@@ -67,10 +74,5 @@ class AvatarUploadView(FormView):
         return redirect('blog:profile')
 
 
-def home(request):
+def index(request):
     return render(request, 'blog/home.html', {'greeting': 'Вітаю у Django проекті Сергія Цеміка!'})
-
-
-# def view_avatar(request, pk):
-#     profile = get_object_or_404(Profile, pk=pk)
-#     return render(request, 'blog/view_avatar.html', {'profile': profile})

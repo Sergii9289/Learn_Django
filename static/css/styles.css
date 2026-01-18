@@ -80,17 +80,6 @@ body {
   text-decoration: none;
 }
 
-/* ===== Пагінація ===== */
-.pagination {
-  margin-top: 20px;
-  text-align: center;
-}
-
-
-.pagination span {
-  margin: 0 10px;
-  font-weight: bold;
-}
 
 /* ===== Навігаційні картки ===== */
 .nav-container {
