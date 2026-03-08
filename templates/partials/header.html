@@ -24,6 +24,31 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'blog:blog_posts' %}">Блог</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'shop:home' %}">Магазин</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">Про нас</a></li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'orders:cart' %}">
+                        <i class="fa-solid fa-cart-shopping"></i> Кошик
+                        {% if user.is_authenticated and user.cart %}
+                            <span class="badge bg-warning text-dark">
+                                {{ user.cart.items.count }}
+                            </span>
+                        {% endif %}
+                    </a>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">
+                            <i class="fa-solid fa-right-from-bracket"></i> Вийти
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fa-solid fa-right-to-bracket"></i> Увійти
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>

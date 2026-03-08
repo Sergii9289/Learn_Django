@@ -5,6 +5,9 @@ from django.views.generic import (ListView, FormView,
                                   CreateView, DetailView, UpdateView, DeleteView)
 from django.urls import reverse_lazy
 from django.db.models import Count
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 
 
 class PostsListView(ListView):
@@ -14,13 +17,29 @@ class PostsListView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return BlogPost.objects.order_by('-created_at')
+        sort = self.request.GET.get('sort', 'created_at')  # значення за замовчуванням
+        order = self.request.GET.get('order', 'desc')  # напрямок сортування
+
+        # Мапа дозволених полів
+        allowed_sorts = {
+            'created_at': 'created_at',
+            'title': 'title',
+            'author': 'author__name',
+        }
+
+        sort_field = allowed_sorts.get(sort, 'created_at')
+
+        if order == 'asc':
+            return BlogPost.objects.order_by(sort_field)
+        return BlogPost.objects.order_by(f'-{sort_field}')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['authors'] = Profile.objects.all()
-        # Використовуємо правильний related_name 'posts'
         context['categories'] = Category.objects.annotate(post_count=Count('posts'))
+        # Передаємо вибрані параметри для шаблону
+        context['current_sort'] = self.request.GET.get('sort', 'created_at')
+        context['current_order'] = self.request.GET.get('order', 'desc')
         return context
 
 
@@ -76,3 +95,15 @@ class AvatarUploadView(FormView):
 
 def index(request):
     return render(request, 'blog/home.html', {'greeting': 'Вітаю у Django проекті Сергія Цеміка!'})
+
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # автоматично залогінити після реєстрації
+            return redirect('index')
+    else:
+        form = UserCreationForm()
+    return render(request, "register.html", {"form": form})

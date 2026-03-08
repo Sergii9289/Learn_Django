@@ -13,6 +13,14 @@ environ.Env.read_env(BASE_DIR / ".env")
 
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
+LOGIN_REDIRECT_URL = 'index'          # після входу
+LOGOUT_REDIRECT_URL = 'index'         # після виходу (альтернатива next_page)
+LOGIN_URL = 'login'                   # якщо потрібна авторизація
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -23,7 +31,8 @@ INSTALLED_APPS = [
     "apps.blog",
     "apps.shop",
     "apps.orders",
-    "apps.users",
+    "debug_toolbar",
+    "apps.accounts",
 ]
 
 MIDDLEWARE = [
@@ -33,6 +42,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -72,6 +82,23 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
+
+# All SQL request log in console
+# LOGGING = {
+#     'version': 1,
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#     },
+# }
 
 LANGUAGE_CODE = "uk-ua"
 TIME_ZONE = "Europe/Kyiv"

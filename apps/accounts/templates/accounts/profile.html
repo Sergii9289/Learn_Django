@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Профіль{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Ваш профіль, {{ user.username }}</h2>
+
+    {% if user.profile.phone or user.profile.address or user.profile.avatar %}
+        <div class="mb-3">
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="Аватар"
+                     class="rounded-circle mb-3" width="120" height="120">
+            {% endif %}
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Телефон:</strong> {{ user.profile.phone|default:"не вказано" }}</p>
+            <p><strong>Адреса:</strong> {{ user.profile.address|default:"не вказано" }}</p>
+        </div>
+
+        <!-- Кнопка для редагування -->
+        <a href="{% url 'accounts:profile' %}?edit=true" class="btn btn-primary">
+            Змінити дані
+        </a>
+
+        {% if request.GET.edit %}
+            <form method="post" enctype="multipart/form-data" class="mt-3">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">Зберегти</button>
+            </form>
+        {% endif %}
+
+    {% else %}
+        <p class="alert alert-info">Дані ще не заповнені. Будь ласка, додайте їх:</p>
+        <form method="post" enctype="multipart/form-data" class="mt-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Зберегти</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

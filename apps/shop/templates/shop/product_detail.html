@@ -11,6 +11,14 @@
     <p><strong>Категорія:</strong> {{ product.category.name }}</p>
     <p class="fs-4 text-success"><strong>Ціна:</strong> {{ product.price }} грн</p>
 
+    <!-- Кнопка "Купити" -->
+    <form method="post" action="{% url 'orders:add_item' product.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">
+            🛒 Купити
+        </button>
+    </form>
+
     <!-- Кнопки навігації -->
     <div class="mt-3">
         <a href="{% url 'shop:category_detail' product.category.id %}" class="btn btn-outline-secondary">

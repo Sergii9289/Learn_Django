@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5" style="max-width: 500px;">
+  <div class="card shadow">
+    <div class="card-body">
+      <h2 class="card-title text-center mb-4">Вхід</h2>
+      <form method="post">
+        {% csrf_token %}
+
+        <!-- Поля форми -->
+        <div class="mb-3">
+          {{ form.username.label_tag }}
+          {{ form.username }}
+        </div>
+        <div class="mb-3">
+          {{ form.password.label_tag }}
+          {{ form.password }}
+        </div>
+
+        <!-- Кнопка -->
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-right-to-bracket"></i> Увійти
+          </button>
+        </div>
+      </form>
+
+      <!-- Посилання на реєстрацію -->
+      <p class="mt-3 text-center">
+        Ще не маєте акаунта?
+        <a href="{% url 'register' %}" class="btn btn-outline-success btn-sm ms-2">
+          <i class="fa-solid fa-user-plus"></i> Зареєструватися
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

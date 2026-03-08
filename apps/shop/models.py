@@ -10,13 +10,9 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.CASCADE,
-        related_name="products"
-    )
-    brand = models.CharField(max_length=200)   # було name
-    model = models.SlugField(max_length=200, unique=True)  # було slug
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
+    brand = models.CharField(max_length=200)
+    model = models.SlugField(max_length=200)  # тепер без unique=True
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 

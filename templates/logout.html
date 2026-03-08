@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h2>Вийти з акаунта</h2>
+  <form method="post" action="{% url 'logout-confirm' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">
+      <i class="fa-solid fa-right-from-bracket"></i> Вийти
+    </button>
+  </form>
+</div>
+{% endblock %}

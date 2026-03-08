@@ -28,6 +28,26 @@
         </li>
     </ul>
 
+    <div class="d-flex justify-content-between mb-3">
+        <div>
+            <form method="get" class="d-flex align-items-center">
+                <label for="sort" class="me-2">Сортувати за:</label>
+                <select name="sort" id="sort" class="form-select me-2" style="width:auto;">
+                    <option value="created_at" {% if current_sort == "created_at" %}selected{% endif %}>Датою створення</option>
+                    <option value="title" {% if current_sort == "title" %}selected{% endif %}>Заголовком</option>
+                    <option value="author" {% if current_sort == "author" %}selected{% endif %}>Автором</option>
+                </select>
+
+                <select name="order" id="order" class="form-select me-2" style="width:auto;">
+                    <option value="asc" {% if current_order == "asc" %}selected{% endif %}>За зростанням</option>
+                    <option value="desc" {% if current_order == "desc" %}selected{% endif %}>За спаданням</option>
+                </select>
+
+                <button type="submit" class="btn btn-outline-primary">🔄 Застосувати</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Контент вкладок -->
     <div class="tab-content" id="contentTabsContent">
 
@@ -103,6 +123,7 @@
             </table>
             <a href="{% url 'blog:post-create' %}" class="btn btn-success">➕ Створити нову статтю</a>
         </div>
+
         <!-- Пагінація -->
         {% if is_paginated %}
         <div class="pagination mt-3">
